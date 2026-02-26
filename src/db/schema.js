@@ -47,4 +47,3 @@ export const commentary = pgTable('commentary', {
   createdAt: timestamp('created_at').notNull().defaultNow(),
 });
 
-
