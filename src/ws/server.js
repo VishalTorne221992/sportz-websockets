@@ -20,22 +20,23 @@ export function attachWebSocketServer(server) {
 
     wss.on('connection', async (socket, req) => {
 
-        if(wsArcjet){
+        if (wsArcjet) {
             try {
-
                 const desicion = await wsArcjet.protect(req);
 
-                if(desicion.isDenied()){
+                if (desicion.isDenied()) {
                     const code = desicion.reason.isRateLimit() ? 1013 : 1008;
                     const reason = desicion.reason.isRateLimit() ? 'Rate Limit exceeded' : 'Access denied';
 
                     socket.close(code, reason);
                     return;
                 }
-
-                
             } catch (error) {
+                // wsArcjet.protect threw, log and close with safe defaults or values from the error
                 console.error('WS connection error', error);
+                const code = (error && typeof error.code === 'number') ? error.code : 1011;
+                const reason = (error && error.message) ? error.message : 'Protection check failed';
+
                 socket.close(code, reason);
                 return;
             }
