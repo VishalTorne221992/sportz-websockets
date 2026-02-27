@@ -1,6 +1,5 @@
 import { WebSocket, WebSocketServer } from 'ws';
 import { wsArcjet } from '../arcjet.js';
-import { da } from 'zod/locales';
 
 
 const matchSubscribers = new Map()
@@ -68,6 +67,7 @@ function handleMessage(socket, data){
         message = JSON.parse(data.toString());        
     } catch (error) {
         sendJson(socket, { type: 'error', message: 'invalid JSON'})
+        return;
     }
 
     if(message?.type === "subscribe" && Number.isInteger(message.matchId)){
