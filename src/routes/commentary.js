@@ -45,7 +45,7 @@ commentaryRouter.get('/', async (req, res) => {
 commentaryRouter.post('/', async (req, res) => {
     // validate route params
 
-    console.log('params',req.params)
+    
     const paramsParsed = matchIdParamSchema.safeParse(req.params);
     
     if (!paramsParsed.success) {
@@ -81,6 +81,6 @@ commentaryRouter.post('/', async (req, res) => {
 
         res.status(201).json({ data: entry, message: 'success' });
     } catch (error) {
-        res.status(500).json({ error: 'Failed to create commentary', details: error.message });
+        res.status(500).json({ error: 'Failed to create commentary'});
     }
 });
